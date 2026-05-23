@@ -1,0 +1,15 @@
+# CODEOWNERS - exemplo
+# Substitua os usuarios pelos GitHub usernames reais da equipe.
+
+# Dono padrao do repositorio
+* @vs0808
+
+# Front-end
+/frontend/ @usuario-front-1 @usuario-front-2
+
+# Back-end
+/backend/ @usuario-back-1 @usuario-back-2
+
+# Configuracoes criticas
+/.github/ @vs0808
+/docs/ @vs0808

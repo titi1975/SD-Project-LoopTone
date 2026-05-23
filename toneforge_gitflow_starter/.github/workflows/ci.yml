@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  validate:
+    name: validar-projeto
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Validacao temporaria
+        run: |
+          echo "Substituir este passo por lint, testes e build reais."
+          echo "Exemplos: npm test, npm run build, pytest, mvn test, etc."

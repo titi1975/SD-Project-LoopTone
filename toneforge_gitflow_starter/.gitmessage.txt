@@ -1,0 +1,16 @@
+# Formato:
+# tipo(escopo): descricao curta
+#
+# Exemplos:
+# feat(frontend): cria tela de login
+# fix(backend): corrige validacao de token
+# docs(readme): adiciona instrucoes de instalacao
+#
+# Tipos:
+# feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
+#
+# Corpo opcional:
+# Explique o motivo da alteracao, impacto e referencia de issue.
+#
+# Issue:
+# Refs #NUMERO
