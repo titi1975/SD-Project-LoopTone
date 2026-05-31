@@ -1,26 +1,68 @@
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from dotenv import load_dotenv
 from typing import Generator
 
-# Carrega as variáveis do .env
-load_dotenv()
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+try:
+    from dotenv import load_dotenv
 
-# Criação da Engine (comunicação física com o DB)
-engine = create_engine(DATABASE_URL, pool_pre_ping=True) # pool_pre_ping evita conexões "fantasmas" que caíram
+    load_dotenv()
+except ModuleNotFoundError:
+    pass
 
-# Fábrica de sessões (Unit of Work) configurada para gerenciar transações manualmente
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./looptone.db")
+engine_options = {"pool_pre_ping": True}
+
+if DATABASE_URL.startswith("sqlite"):
+    engine_options["connect_args"] = {"check_same_thread": False}
+
+engine = create_engine(DATABASE_URL, **engine_options)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Função geradora para Injeção de Dependência no FastAPI
+
+def migrate_sqlite_user_schema() -> None:
+    if not DATABASE_URL.startswith("sqlite"):
+        return
+
+    legacy_columns = {"sobrenome", "idade", "cep", "endereco", "numero_residencia", "cpf"}
+
+    with engine.connect() as connection:
+        table_rows = connection.exec_driver_sql("PRAGMA table_info(users)").mappings().all()
+        current_columns = {row["name"] for row in table_rows}
+
+        if not current_columns or legacy_columns.isdisjoint(current_columns):
+            return
+
+        connection.exec_driver_sql("PRAGMA foreign_keys=OFF")
+        connection.exec_driver_sql(
+            """
+            CREATE TABLE users_new (
+                id INTEGER NOT NULL PRIMARY KEY,
+                nome VARCHAR(20) NOT NULL,
+                email VARCHAR(100) NOT NULL,
+                senha VARCHAR(255) NOT NULL,
+                ativo BOOLEAN
+            )
+            """
+        )
+        connection.exec_driver_sql(
+            """
+            INSERT INTO users_new (id, nome, email, senha, ativo)
+            SELECT id, nome, email, senha, COALESCE(ativo, 1)
+            FROM users
+            """
+        )
+        connection.exec_driver_sql("DROP TABLE users")
+        connection.exec_driver_sql("ALTER TABLE users_new RENAME TO users")
+        connection.exec_driver_sql("CREATE UNIQUE INDEX ix_users_email ON users (email)")
+        connection.exec_driver_sql("CREATE INDEX ix_users_id ON users (id)")
+        connection.exec_driver_sql("PRAGMA foreign_keys=ON")
+        connection.commit()
+
+
 def get_db() -> Generator[Session, None, None]:
-    """
-    Injeção de dependência para instanvciar a conexão com o banco.
-    O 'yield' garante que a sessão fechada após o request, indepentemente de erros.
-    """
     db = SessionLocal()
     try:
         yield db

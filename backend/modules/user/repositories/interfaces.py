@@ -12,6 +12,9 @@ class IUserRepository(ABC):
     
     @abstractmethod
     def get_by_id(self, user_id: int) -> Optional[UserEntity]: pass
+
+    @abstractmethod
+    def get_by_email(self, email: str) -> Optional[UserEntity]: pass
     
     @abstractmethod
     def get_all(self, skip: int, limit: int, nome: Optional[str], email: Optional[str]) -> List[UserEntity]: pass

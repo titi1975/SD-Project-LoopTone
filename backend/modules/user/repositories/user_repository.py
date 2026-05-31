@@ -20,6 +20,12 @@ class UserRepository(IUserRepository):
             UserEntity.ativo.is_(True)
         ).first()
 
+    def get_by_email(self, email: str) -> Optional[UserEntity]:
+        return self.db.query(UserEntity).filter(
+            UserEntity.email == email,
+            UserEntity.ativo.is_(True)
+        ).first()
+
     def get_all(self, skip: int = 0, limit: int = 10, nome: Optional[str] = None, email: Optional[str] = None) -> List[UserEntity]:
         query = self.db.query(UserEntity).filter(UserEntity.ativo.is_(True))
         
