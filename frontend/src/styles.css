@@ -38,6 +38,7 @@ a {
   text-decoration: none;
 }
 
+/* Logos */
 .looptone-logo {
   color: #ffffff;
   display: inline-block;
@@ -58,6 +59,7 @@ a {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
 }
 
+/* Layout Geral da Página de Login */
 .login-page {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 29vw);
@@ -65,6 +67,7 @@ a {
   background: #07070f;
 }
 
+/* Painel Esquerdo (Brand) */
 .login-brand-panel {
   padding: clamp(2rem, 6vw, 5rem);
 }
@@ -91,6 +94,7 @@ a {
   color: #f5f2ff;
 }
 
+/* Painel Direito (Formulário) */
 .login-form-panel {
   align-items: center;
   background: #fbfbfa;
@@ -104,6 +108,12 @@ a {
   display: grid;
   gap: 1.7rem;
   width: min(100%, 23rem);
+}
+
+/* Força todos os elementos filhos do form a esticarem horizontalmente por padrão */
+.login-form > * {
+  justify-self: stretch;
+  width: 100%;
 }
 
 .login-form h1 {
@@ -145,25 +155,25 @@ a {
   outline-color: #7f58ff;
 }
 
+/* CORREÇÃO: Botão Primário Roxo */
 .primary-button {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: #7f58ff;
   border: 0;
   border-radius: 10px;
   color: #ffffff;
-  display: inline-flex;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 800;
   gap: 1.5rem;
   height: 2.85rem;
-  justify-content: center;
-  justify-self: end;
-  max-width: 100%;
-  min-width: 13.5rem;
   padding: 0 1.25rem;
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
 }
 
+/* Divisor "OU" */
 .divider {
   align-items: center;
   color: #8580b6;
@@ -180,28 +190,29 @@ a {
   height: 1px;
 }
 
+/* CORREÇÃO: Botão do Google */
 .google-button {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: #ffffff;
   border: 1px solid #8a8892;
   border-radius: 9px;
   color: #6f6b7d;
-  display: inline-flex;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
   gap: 0.7rem;
-  height: 2.45rem;
-  justify-content: center;
-  justify-self: center;
-  max-width: 100%;
-  min-width: 13.5rem;
+  height: 2.85rem; /* Igualado com a altura do PrimaryButton */
   padding: 0 1rem;
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
 }
 
+/* Limpeza de regras antigas que limitavam a largura na tela de login */
 .login-form .primary-button,
 .login-form .google-button {
-  width: min(100%, 15.5rem);
+  width: 100%;
+  max-width: 100%;
 }
 
 .google-mark {
@@ -224,6 +235,7 @@ a {
   margin: 0;
 }
 
+/* --- Restante dos estilos mantidos para as outras páginas --- */
 .auth-shell {
   align-items: center;
   display: flex;
@@ -537,6 +549,7 @@ a {
   width: 15.5rem;
 }
 
+/* Media Queries (Responsividade) */
 @media (max-width: 860px) {
   .login-page {
     grid-template-columns: 1fr;
@@ -568,7 +581,7 @@ a {
   .register-actions .primary-button,
   .register-actions .google-button {
     justify-self: stretch;
-    width: 100%;
+    width: 100% !important;
   }
 
   .setup-header {

@@ -50,24 +50,41 @@ export function LoginPage() {
       <section className="login-form-panel">
         <form className="login-form" onSubmit={handleSubmit}>
           <h1>Entrar</h1>
+          
           <label>
             <span>E-mail</span>
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required />
+            <input 
+              value={email} 
+              onChange={(event) => setEmail(event.target.value)} 
+              type="email" 
+              required 
+            />
           </label>
+          
           <label>
             <span>Senha</span>
-            <input value={senha} onChange={(event) => setSenha(event.target.value)} type="password" required />
+            <input 
+              value={senha} 
+              onChange={(event) => setSenha(event.target.value)} 
+              type="password" 
+              required 
+            />
           </label>
+          
           {feedback && <p className="form-feedback">{feedback}</p>}
+          
           <PrimaryButton disabled={loading} type="submit">
             {loading ? "Entrando..." : "Entrar na sua conta"}
           </PrimaryButton>
+          
           <div className="divider">
             <span />
             ou
             <span />
           </div>
+          
           <GoogleButton disabled />
+          
           <p className="account-link">
             Não tem conta? <Link to="/cadastro">Criar Conta</Link>
           </p>
