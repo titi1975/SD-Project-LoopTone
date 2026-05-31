@@ -1,0 +1,64 @@
+# ==========================================
+# Variáveis de Ambiente e Segurança
+# ==========================================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.pem
+*.key
+secrets.json
+
+# ==========================================
+# Ambientes Virtuais (Virtualenvs)
+# ==========================================
+venv/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# ==========================================
+# Python / Compilados / Cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ==========================================
+# Logs e Bancos de Dados Locais
+# ==========================================
+*.log
+logs/
+# Caso utilize SQLite no futuro para testes rápidos locais
+*.sqlite3
+*.db
+
+# ==========================================
+# IDEs e Editores de Código
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Testes e Cobertura de Código (Opcional p/ Futuro)
+# ==========================================
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.tox/
+
+# ==========================================
+# Builds e Empacotamentos
+# ==========================================
+build/
+dist/
+*.egg-info/

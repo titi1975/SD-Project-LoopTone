@@ -4,7 +4,7 @@ Este pacote contem arquivos iniciais para configurar um fluxo de Git/GitHub prof
 
 ## Arquivos
 
-- `docs/GIT_FLOW.md`: documentaçãao principal do fluxo.
+- `docs/GIT_FLOW.md`: documentação principal do fluxo.
 - `.github/pull_request_template.md`: template de Pull Request.
 - `.github/ISSUE_TEMPLATE/bug_report.md`: template de bug.
 - `.github/ISSUE_TEMPLATE/feature_request.md`: template de feature.
