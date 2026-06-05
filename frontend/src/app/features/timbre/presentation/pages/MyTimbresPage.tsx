@@ -55,13 +55,12 @@ export function MyTimbresPage() {
         <LoopToneLogo size="sm" />
         <nav className="timbre-nav" aria-label="Navegacao principal">
           <button className="timbre-nav-button" type="button" onClick={() => navigate("/novo-timbre")}>
-            <span aria-hidden="true">+</span>
             Novo Timbre
           </button>
           <button className="timbre-nav-button is-active" type="button">
             Meus Timbres
           </button>
-          <button className="timbre-nav-button" type="button" onClick={() => navigate("/setup")}>
+          <button className="timbre-nav-button" type="button" onClick={() => navigate("/equipamentos")}>
             Equipamentos
           </button>
         </nav>
@@ -168,7 +167,6 @@ export function MyTimbresPage() {
             <h1>Meus Timbres</h1>
             <p>Salve o resumo de uma conversa para ele aparecer aqui.</p>
             <button className="timbre-nav-button is-active" type="button" onClick={() => navigate("/novo-timbre")}>
-              <span aria-hidden="true">+</span>
               Novo Timbre
             </button>
           </div>

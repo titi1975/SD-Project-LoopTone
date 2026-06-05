@@ -552,7 +552,6 @@ a {
 /* Tela de criacao de timbre */
 .timbre-workspace {
   background: #07070f;
-  border: 1px solid #6042c9;
   color: #f7f4ff;
   display: grid;
   grid-template-areas:
@@ -660,7 +659,7 @@ a {
   background: transparent;
   border: 0;
   color: #9d86ff;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 800;
 }
 
@@ -691,6 +690,18 @@ a {
   font-size: 0.7rem;
   font-weight: 800;
   padding: 0;
+}
+
+.collapse-sidebar-button {
+  font-size: 1.5rem !important;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collapse-sidebar-button span {
+  font-size: 1.5rem !important;
 }
 
 .reference-input-row {
@@ -846,6 +857,8 @@ a {
   background: transparent;
   border: 0;
   color: #ffffff;
+  font-family: inherit;
+  font-size: inherit;
   min-height: 3rem;
   outline: 2px solid transparent;
   resize: vertical;
@@ -1163,6 +1176,176 @@ a {
   width: 100%;
 }
 
+/* Tela Equipamentos */
+.equipment-workspace {
+  background: #07070f;
+  color: #f7f4ff;
+  display: grid;
+  grid-template-areas:
+    "topbar"
+    "equipment";
+  grid-template-rows: 4.6rem minmax(0, 1fr);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.equipment-page-panel {
+  grid-area: equipment;
+  margin: 0 auto;
+  max-width: 62rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 3rem clamp(1.25rem, 4vw, 3rem) 4rem;
+  width: 100%;
+}
+
+.equipment-page-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0 auto 2.6rem;
+  max-width: 50rem;
+}
+
+.equipment-page-header h1 {
+  color: #ffffff;
+  font-size: 1.12rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.equipment-add-button {
+  align-items: center;
+  background: transparent;
+  border: 1px solid #6848d6;
+  border-radius: 12px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 800;
+  gap: 0.65rem;
+  min-height: 2.55rem;
+  padding: 0 1.2rem;
+}
+
+.equipment-add-button span {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.equipment-category-stack {
+  display: grid;
+  gap: 1.05rem;
+  margin: 0 auto;
+  max-width: 50rem;
+}
+
+.equipment-category-row {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.equipment-category-line {
+  align-items: center;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: auto minmax(2rem, 1fr);
+}
+
+.equipment-category-line h2 {
+  color: #9d86ff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.equipment-category-line span {
+  background: #5a566b;
+  height: 1px;
+}
+
+.equipment-row-box {
+  align-items: center;
+  border: 1px solid #6848d6;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  min-height: 3.85rem;
+  padding: 0.65rem 0.9rem;
+  width: 100%;
+}
+
+.equipment-row-chip {
+  align-items: center;
+  background: #111122;
+  border: 1px solid #6848d6;
+  border-radius: 10px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 800;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 2.15rem;
+  min-width: min(100%, 23rem);
+  padding: 0 0.65rem 0 1.4rem;
+}
+
+.equipment-row-chip span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.equipment-edit-mark {
+  align-items: center;
+  border: 1px solid #7f58ff;
+  border-radius: 6px;
+  color: #9d86ff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.65rem;
+  height: 1.1rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.25rem 0.35rem;
+}
+
+.equipment-row-empty {
+  color: #7774ab;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.equipment-page-feedback {
+  color: #bcaeff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin: 1rem 0 0;
+}
+
+.equipment-modal-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.modal-danger {
+  background: transparent;
+  border: 1px solid #ff5f7d;
+  border-radius: 8px;
+  color: #ff8ea3;
+  font-size: 0.8rem;
+  font-weight: 800;
+  height: 2.6rem;
+  min-width: 8rem;
+}
+
 /* Media Queries (Responsividade) */
 @media (max-width: 860px) {
   .login-page {
@@ -1234,7 +1417,6 @@ a {
   }
 
   .timbre-sidebar {
-    border-bottom: 1px solid #6042c9;
     border-right: 0;
     display: grid;
     grid-template-columns: 1fr;
@@ -1275,5 +1457,22 @@ a {
   .final-parameters-panel,
   .summary-panel {
     padding: 1rem;
+  }
+
+  .equipment-workspace {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .equipment-page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .equipment-add-button {
+    justify-content: center;
+  }
+
+  .equipment-row-chip {
+    width: 100%;
   }
 }

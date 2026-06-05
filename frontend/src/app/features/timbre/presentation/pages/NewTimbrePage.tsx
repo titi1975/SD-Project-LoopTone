@@ -150,13 +150,12 @@ export function NewTimbrePage() {
         <LoopToneLogo size="sm" />
         <nav className="timbre-nav" aria-label="Navegacao principal">
           <button className="timbre-nav-button is-active" type="button" onClick={handleNewTimbre}>
-            <span aria-hidden="true">+</span>
             Novo Timbre
           </button>
           <button className="timbre-nav-button" type="button" onClick={() => navigate("/meus-timbres")}>
             Meus Timbres
           </button>
-          <button className="timbre-nav-button" type="button" onClick={() => navigate("/setup")}>
+          <button className="timbre-nav-button" type="button" onClick={() => navigate("/equipamentos")}>
             Equipamentos
           </button>
         </nav>
@@ -172,8 +171,8 @@ export function NewTimbrePage() {
             <section className="sidebar-section">
               <div className="sidebar-title-row">
                 <h2>Audio Referencia</h2>
-                <button type="button" onClick={() => setIsSidebarCollapsed(true)} aria-label="Recolher sidebar">
-                  <span aria-hidden="true">[]</span>
+                <button className="collapse-sidebar-button" type="button" onClick={() => setIsSidebarCollapsed(true)} aria-label="Recolher sidebar">
+                  <span aria-hidden="true">«</span>
                 </button>
               </div>
 
@@ -230,8 +229,8 @@ export function NewTimbrePage() {
           </>
         )}
         {isSidebarCollapsed && (
-          <button className="expand-sidebar-button" type="button" onClick={() => setIsSidebarCollapsed(false)}>
-             []
+          <button className="expand-sidebar-button" type="button" onClick={() => setIsSidebarCollapsed(false)} aria-label="Expandir sidebar">
+             »
           </button>
         )}
       </aside>
@@ -269,8 +268,8 @@ export function NewTimbrePage() {
           />
 
           <div className="composer-actions">
-            <button className="action-icon-button" type="button" title="Usar microfone">🎤</button>
-            <button className="action-icon-button" type="button" title="Fazer upload de timbre">📁</button>
+            <button type="button">Gravar Timbre Atual</button>
+            <button type="button">Upload do Timbre Atual</button>
             <div className="spacer" />
             <button className="save-summary-button" type="button" onClick={handleSaveSummary}>
               Salvar resumo do timbre
@@ -296,7 +295,7 @@ export function NewTimbrePage() {
             
             <div className="equipment-selection-list">
               {equipments.length === 0 ? (
-                <p>Nenhum equipamento cadastrado. <button type="button" onClick={() => navigate("/setup")}>Ir para Meus Equipamentos</button></p>
+                <p>Nenhum equipamento cadastrado. <button type="button" onClick={() => navigate("/equipamentos")}>Ir para Equipamentos</button></p>
               ) : (
                 equipments.map((equipment) => (
                   <label key={equipment.id} className="selection-item">
