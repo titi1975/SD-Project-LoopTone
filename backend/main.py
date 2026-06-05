@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from scalar_fastapi import get_scalar_api_reference
 
 # Importações de Domínio e Infra
-from infra.database.database_config import engine, migrate_sqlite_user_schema
+from infra.database.database_config import engine
 from infra.database.base_entity import Base
 from modules.auth.controllers.auth_controller import router as auth_router
 from modules.equipment.controllers.equipment_controller import router as equipment_router
@@ -13,7 +13,6 @@ from shared.exceptions.base_exceptions import NotFoundException, BusinessRuleExc
 
 # Cria as tabelas físicas no banco de dados. 
 # NOTA PARA O FUTURO: Em um projeto real/produção, substitua isso pelo Alembic (Migrations).
-migrate_sqlite_user_schema()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
