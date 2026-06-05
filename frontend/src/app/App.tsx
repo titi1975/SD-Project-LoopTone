@@ -3,6 +3,7 @@ import { LoginPage } from "./features/auth/presentation/pages/LoginPage";
 import { CompletionPage } from "./features/auth/presentation/pages/CompletionPage";
 import { RegisterPage } from "./features/auth/presentation/pages/RegisterPage";
 import { SetupPage } from "./features/auth/presentation/pages/SetupPage";
+import { MyTimbresPage } from "./features/timbre/presentation/pages/MyTimbresPage";
 import { NewTimbrePage } from "./features/timbre/presentation/pages/NewTimbrePage";
 
 export function App() {
@@ -15,6 +16,7 @@ export function App() {
         <Route path="/setup" element={<SetupPage />} />
         <Route path="/concluido" element={<CompletionPage />} />
         <Route path="/novo-timbre" element={<NewTimbrePage />} />
+        <Route path="/meus-timbres" element={<MyTimbresPage />} />
       </Routes>
     </Router>
   );

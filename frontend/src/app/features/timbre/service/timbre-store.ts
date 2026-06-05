@@ -11,6 +11,7 @@ type TimbreState = {
   addMessage: (message: TimbreChatMessage) => void;
   setDraftSummary: (summary: string) => void;
   saveProject: (project: TimbreProject) => void;
+  deleteProject: (id: string) => void;
   resetChat: () => void;
 };
 
@@ -28,6 +29,12 @@ export const useTimbreStore = create<TimbreState>((set) => ({
   saveProject: (project) =>
     set((state) => {
       const projects = [project, ...state.projects.filter((item) => item.id !== project.id)];
+      persist(projectsStorageKey, projects);
+      return { projects };
+    }),
+  deleteProject: (id) =>
+    set((state) => {
+      const projects = state.projects.filter((p) => p.id !== id);
       persist(projectsStorageKey, projects);
       return { projects };
     }),

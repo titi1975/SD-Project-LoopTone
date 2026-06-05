@@ -966,6 +966,203 @@ a {
   font-size: 0.7rem;
 }
 
+/* Tela Meus Timbres */
+.timbre-library-workspace {
+  grid-template-columns: minmax(14rem, 17.5rem) minmax(0, 1fr);
+}
+
+.timbre-library-sidebar {
+  gap: 1rem;
+}
+
+.library-project-chip {
+  border-radius: 10px;
+  min-height: 3.1rem;
+  padding: 0 0.75rem;
+}
+
+.library-project-chip.is-selected {
+  border-color: #7f58ff;
+  box-shadow: inset 0 0 0 2px #7f58ff;
+}
+
+.library-project-chip.is-empty {
+  justify-content: center;
+}
+
+.library-project-dot {
+  background: #7f58ff;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  height: 1.65rem;
+  width: 1.65rem;
+}
+
+.timbre-library-panel {
+  grid-area: chat;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 2rem clamp(1.25rem, 3vw, 2rem);
+}
+
+.timbre-detail {
+  display: grid;
+  gap: 1.35rem;
+  max-width: 58rem;
+}
+
+.timbre-detail-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.timbre-detail-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.timbre-detail-header h1 {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.timbre-detail-date {
+  color: #7774ab;
+  font-size: 0.72rem;
+  font-weight: 800;
+  opacity: 0.5;
+}
+
+.timbre-detail-delete-button {
+  background: transparent;
+  border: 1px solid #ff3d6e;
+  border-radius: 8px;
+  color: #ff3d6e;
+  font-size: 0.7rem;
+  font-weight: 800;
+  height: 2.1rem;
+  padding: 0 1rem;
+  transition: all 0.2s;
+}
+
+.timbre-detail-delete-button:hover {
+  background: #ff3d6e;
+  color: #ffffff;
+}
+
+.timbre-detail-section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.timbre-detail-section h2 {
+  color: #9d86ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.library-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.library-chip-grid span,
+.library-muted {
+  align-items: center;
+  background: #111122;
+  border: 1px solid #6848d6;
+  border-radius: 8px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 800;
+  min-height: 2.1rem;
+  padding: 0 1.5rem;
+}
+
+.library-muted {
+  color: #bcaeff;
+}
+
+.final-parameters-panel,
+.summary-panel {
+  background: #07070f;
+  border: 1px solid #6848d6;
+  border-radius: 8px;
+  min-height: 8.5rem;
+  padding: 1.6rem 2rem;
+}
+
+.final-parameters-flow {
+  align-items: center;
+  display: flex;
+  gap: 1.6rem;
+  min-height: 5.2rem;
+}
+
+.library-setting-grid {
+  align-content: center;
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0;
+}
+
+.library-setting-grid span {
+  min-width: 8rem;
+  text-align: center;
+}
+
+.flow-arrow {
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.summary-panel {
+  min-height: 10rem;
+}
+
+.summary-panel p {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.library-empty-state {
+  align-items: start;
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  margin: 12vh auto 0;
+  max-width: 28rem;
+}
+
+.library-empty-state h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0;
+}
+
+.library-empty-state p {
+  color: #bcaeff;
+  font-weight: 800;
+  margin: 0;
+}
+
+.library-feedback {
+  margin: 0;
+  width: 100%;
+}
+
 /* Media Queries (Responsividade) */
 @media (max-width: 860px) {
   .login-page {
@@ -1057,5 +1254,26 @@ a {
 
   .composer-actions .send-button {
     justify-self: stretch;
+  }
+
+  .timbre-library-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .timbre-detail-header,
+  .final-parameters-flow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    font-size: 2rem;
+    text-align: center;
+    transform: rotate(90deg);
+  }
+
+  .final-parameters-panel,
+  .summary-panel {
+    padding: 1rem;
   }
 }

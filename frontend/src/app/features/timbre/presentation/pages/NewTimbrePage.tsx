@@ -153,7 +153,7 @@ export function NewTimbrePage() {
             <span aria-hidden="true">+</span>
             Novo Timbre
           </button>
-          <button className="timbre-nav-button" type="button">
+          <button className="timbre-nav-button" type="button" onClick={() => navigate("/meus-timbres")}>
             Meus Timbres
           </button>
           <button className="timbre-nav-button" type="button" onClick={() => navigate("/setup")}>
