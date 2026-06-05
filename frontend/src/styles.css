@@ -549,6 +549,423 @@ a {
   width: 15.5rem;
 }
 
+/* Tela de criacao de timbre */
+.timbre-workspace {
+  background: #07070f;
+  border: 1px solid #6042c9;
+  color: #f7f4ff;
+  display: grid;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar chat";
+  grid-template-columns: minmax(13.5rem, 17rem) minmax(0, 1fr);
+  grid-template-rows: 4.6rem minmax(0, 1fr);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.timbre-workspace.is-sidebar-collapsed {
+  grid-template-columns: 4rem minmax(0, 1fr);
+}
+
+.timbre-topbar {
+  align-items: center;
+  border-bottom: 1px solid #6042c9;
+  display: grid;
+  gap: 1.25rem;
+  grid-area: topbar;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 0 2rem;
+}
+
+.timbre-nav {
+  align-items: center;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.timbre-nav-button {
+  align-items: center;
+  background: transparent;
+  border: 1px solid #6848d6;
+  border-radius: 12px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 800;
+  gap: 0.55rem;
+  height: 2.5rem;
+  justify-content: center;
+  min-width: 8.6rem;
+  padding: 0 1rem;
+}
+
+.timbre-nav-button.is-active {
+  background: #7f58ff;
+  border-color: #7f58ff;
+}
+
+.timbre-nav-button span {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.timbre-account {
+  align-items: center;
+  color: #ffffff;
+  display: flex;
+  font-size: 0.75rem;
+  gap: 1.2rem;
+  justify-content: end;
+  min-width: 9rem;
+}
+
+.timbre-avatar {
+  background: radial-gradient(circle at 50% 36%, #07070f 0 28%, transparent 29%), #7f58ff;
+  border-radius: 50%;
+  display: inline-block;
+  height: 2.25rem;
+  position: relative;
+  width: 2.25rem;
+}
+
+.timbre-avatar::after {
+  background: #07070f;
+  border-radius: 50% 50% 42% 42%;
+  bottom: 0.24rem;
+  content: "";
+  height: 0.85rem;
+  left: 0.48rem;
+  position: absolute;
+  width: 1.28rem;
+}
+
+.timbre-sidebar {
+  border-right: 1px solid #6042c9;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  grid-area: sidebar;
+  min-width: 0;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.timbre-sidebar.is-collapsed {
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.expand-sidebar-button {
+  background: transparent;
+  border: 0;
+  color: #9d86ff;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.sidebar-section {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.sidebar-title-row {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+  justify-content: space-between;
+}
+
+.sidebar-title-row h2 {
+  color: #9d86ff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.sidebar-title-row span,
+.sidebar-title-row button {
+  background: transparent;
+  border: 0;
+  color: #9d86ff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0;
+}
+
+.reference-input-row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.upload-trigger {
+  background: #7f58ff;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  height: 2.25rem;
+  width: 100%;
+}
+
+.sidebar-chip-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sidebar-chip {
+  align-items: center;
+  background: #111122;
+  border: 1px solid #6848d6;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  font-size: 0.72rem;
+  font-weight: 800;
+  gap: 0.55rem;
+  min-height: 2.15rem;
+  min-width: 0;
+  padding: 0 0.5rem 0 0.85rem;
+}
+
+.chip-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-delete {
+  background: transparent;
+  border: 0;
+  color: #ff6b89;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+.sidebar-chip.with-dot::before {
+  background: #7f58ff;
+  border-radius: 50%;
+  content: "";
+  flex: 0 0 auto;
+  height: 1.45rem;
+  width: 1.45rem;
+}
+
+.timbre-chat-panel {
+  display: flex;
+  flex-direction: column;
+  grid-area: chat;
+  min-width: 0;
+  height: 100%;
+}
+
+.timbre-chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 5vw, 4.5rem) clamp(1rem, 7vw, 8rem) 1.75rem;
+}
+
+.timbre-empty-state {
+  align-items: end;
+  display: flex;
+  justify-content: center;
+  min-height: min(41vh, 22rem);
+  text-align: center;
+}
+
+.timbre-empty-state h1 {
+  font-size: clamp(1.8rem, 3.1vw, 2.85rem);
+  line-height: 1.05;
+  margin: 0 0 0.6rem;
+}
+
+.chat-message-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 52rem;
+}
+
+.chat-message {
+  border: 1px solid #6848d6;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.83rem;
+  font-weight: 700;
+  line-height: 1.35;
+  max-width: min(100%, 34rem);
+  padding: 0.85rem 1rem;
+}
+
+.chat-message.is-user {
+  justify-self: end;
+}
+
+.chat-message.is-assistant {
+  background: #111122;
+  justify-self: start;
+}
+
+.chat-message p {
+  margin: 0;
+}
+
+.setting-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.setting-chip-grid span {
+  border: 1px solid #6848d6;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.45rem 0.75rem;
+}
+
+.timbre-composer {
+  background: #111122;
+  border-radius: 8px;
+  display: grid;
+  flex-shrink: 0;
+  gap: 0.8rem;
+  margin: 0 auto 1.75rem;
+  max-width: 52rem;
+  min-height: 7.2rem;
+  padding: 1rem;
+  width: min(100% - 2rem, 52rem);
+}
+
+.timbre-composer textarea {
+  background: transparent;
+  border: 0;
+  color: #ffffff;
+  min-height: 3rem;
+  outline: 2px solid transparent;
+  resize: vertical;
+  width: 100%;
+}
+
+.timbre-composer textarea::placeholder {
+  color: #7774ab;
+}
+
+.composer-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.composer-actions .spacer {
+  flex: 1;
+}
+
+.composer-actions button {
+  background: transparent;
+  border: 1px solid #6848d6;
+  border-radius: 9px;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  min-height: 2.25rem;
+  padding: 0 1.2rem;
+}
+
+.action-icon-button {
+  aspect-ratio: 1;
+  font-size: 1.1rem !important;
+  padding: 0 !important;
+  width: 2.25rem;
+}
+
+.save-summary-button {
+  border-color: #6848d6;
+}
+
+.composer-actions .send-button {
+  background: #7f58ff;
+  border-color: #7f58ff;
+  padding: 0 1.5rem !important;
+}
+
+.timbre-feedback {
+  color: #bcaeff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin: 0 auto 1rem;
+  max-width: 52rem;
+  width: min(100% - 2rem, 52rem);
+}
+
+/* Linking Modal Styles */
+.linking-modal {
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+.equipment-selection-list {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+.selection-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #111122;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.selection-item:hover {
+  border-color: #6848d6;
+}
+
+.selection-item input {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #7f58ff;
+}
+
+.selection-item span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex: 1;
+}
+
+.selection-item small {
+  color: #9d86ff;
+  font-size: 0.7rem;
+}
+
 /* Media Queries (Responsividade) */
 @media (max-width: 860px) {
   .login-page {
@@ -592,5 +1009,53 @@ a {
   .step-dot {
     height: 3.6rem;
     width: 3.6rem;
+  }
+
+  .timbre-workspace {
+    grid-template-areas:
+      "topbar"
+      "sidebar"
+      "chat";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .timbre-topbar {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .timbre-nav {
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+
+  .timbre-account {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .timbre-sidebar {
+    border-bottom: 1px solid #6042c9;
+    border-right: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .timbre-chat-panel {
+    padding: 1.5rem 1rem;
+  }
+
+  .timbre-empty-state {
+    min-height: 11rem;
+  }
+
+  .composer-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-actions .send-button {
+    justify-self: stretch;
   }
 }

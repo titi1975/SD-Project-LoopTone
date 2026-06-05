@@ -3,6 +3,7 @@ import { LoginPage } from "./features/auth/presentation/pages/LoginPage";
 import { CompletionPage } from "./features/auth/presentation/pages/CompletionPage";
 import { RegisterPage } from "./features/auth/presentation/pages/RegisterPage";
 import { SetupPage } from "./features/auth/presentation/pages/SetupPage";
+import { NewTimbrePage } from "./features/timbre/presentation/pages/NewTimbrePage";
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <Route path="/cadastro" element={<RegisterPage />} />
         <Route path="/setup" element={<SetupPage />} />
         <Route path="/concluido" element={<CompletionPage />} />
+        <Route path="/novo-timbre" element={<NewTimbrePage />} />
       </Routes>
     </Router>
   );

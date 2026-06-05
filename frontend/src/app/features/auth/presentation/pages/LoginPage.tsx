@@ -22,7 +22,7 @@ export function LoginPage() {
     try {
       const session = await authService.login({ email, senha });
       setSession(session.accessToken, session.user);
-      navigate("/setup");
+      navigate("/novo-timbre");
     } catch (error) {
       setFeedback(error instanceof Error ? error.message : "Não foi possível entrar.");
     } finally {

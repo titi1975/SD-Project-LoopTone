@@ -14,7 +14,7 @@ export function CompletionPage() {
           ✓
         </div>
         <h1>Concluído!</h1>
-        <PrimaryButton className="completion-action" type="button" onClick={() => navigate("/setup")}>
+        <PrimaryButton className="completion-action" type="button" onClick={() => navigate("/novo-timbre")}>
           Produzir Primeiro Timbre
         </PrimaryButton>
       </section>
