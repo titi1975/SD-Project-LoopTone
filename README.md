@@ -92,10 +92,19 @@ Durante o desenvolvimento, o Vite redireciona chamadas `/api` para o backend em 
 
 ## Fluxo Disponivel 
 
+- **Autenticação:** Login e Cadastro com validações rigorosas.
+- **Setup Inicial:** Cadastro de equipamentos durante o registro.
+- **Novo Timbre:** Interface de chat interativa para criação de timbres com suporte a áudio de referência e seleção de setup.
+- **Meus Timbres:** Biblioteca para gerenciar e visualizar resumos de timbres salvos.
+- **Equipamentos:** Gerenciamento completo (CRUD) de instrumentos, pedais, amplificadores, etc.
+
+## Rotas Principais
+
 - Login: `http://localhost:5173/login`
 - Cadastro: `http://localhost:5173/cadastro`
-- Setup de equipamentos: `http://localhost:5173/setup`
-- Conclusao: `http://localhost:5173/concluido`
+- Novo Timbre: `http://localhost:5173/novo-timbre`
+- Meus Timbres: `http://localhost:5173/meus-timbres`
+- Equipamentos: `http://localhost:5173/equipamentos`
 
 ## Banco de Dados
 
