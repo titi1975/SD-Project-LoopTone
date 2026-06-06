@@ -24,6 +24,7 @@ class CreateUserUseCase:
             numero_residencia=dto.numero_residencia,
             email=dto.email,
             cpf=dto.cpf,
-            senha=hashed_password
+            senha=hashed_password,
+            aceitou_termos=dto.aceitou_termos
         )
         return self.repository.create(user_entity)

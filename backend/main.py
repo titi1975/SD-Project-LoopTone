@@ -2,27 +2,32 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from scalar_fastapi import get_scalar_api_reference
 
-# Importações de Domínio e Infra
+# --- OS IMPORTS QUE HAVIAM SIDO APAGADOS VOLTARAM AQUI ---
 from infra.database.database_config import engine
 from infra.database.base_entity import Base
-from modules.user.controllers.user_controller import router as user_router
 from shared.exceptions.base_exceptions import NotFoundException, BusinessRuleException
+# ---------------------------------------------------------
 
-# Cria as tabelas físicas no banco de dados. 
-# NOTA PARA O FUTURO: Em um projeto real/produção, substitua isso pelo Alembic (Migrations).
+from modules.user.controllers.user_controller import router as user_router
+from modules.equipment.controllers.equipment_controller import router as equipment_router
+from modules.user.entities.user_entity import UserEntity
+from modules.equipment.entities.equipment_entity import EquipmentEntity
+
+# IMPORTAÇÃO DA NOSSA DOCUMENTAÇÃO AUXILIAR
+from shared.documentation.api_docs import API_TITLE, API_DESCRIPTION, API_VERSION, TAGS_METADATA
+
 Base.metadata.create_all(bind=engine)
 
+# INJETANDO OS METADADOS NO FASTAPI
 app = FastAPI(
-    title="Clean Architecture Python API",
-    description="API com design robusto baseada em princípios SOLID e estruturação em módulos.",
-    version="1.0.0"
+    title=API_TITLE,
+    description=API_DESCRIPTION,
+    version=API_VERSION,
+    openapi_tags=TAGS_METADATA # Aplica as descrições nas tags laterais
 )
-
-# --- TRATAMENTO GLOBAL DE EXCEÇÕES ---
 
 @app.exception_handler(NotFoundException)
 async def not_found_exception_handler(request: Request, exc: NotFoundException):
-    """Converte exceções de 'Não Encontrado' do domínio para HTTP 404."""
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={"message": exc.message},
@@ -30,18 +35,14 @@ async def not_found_exception_handler(request: Request, exc: NotFoundException):
 
 @app.exception_handler(BusinessRuleException)
 async def business_rule_exception_handler(request: Request, exc: BusinessRuleException):
-    """Converte violações de regra de negócio do domínio para HTTP 400."""
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={"message": exc.message},
     )
 
-# ---------------------------------------
-
-# Registrando os Controllers
 app.include_router(user_router)
+app.include_router(equipment_router)
 
-# Configuração da Documentação via Scalar
 @app.get("/scalar", include_in_schema=False)
 async def scalar_html() -> HTMLResponse:
     return get_scalar_api_reference(

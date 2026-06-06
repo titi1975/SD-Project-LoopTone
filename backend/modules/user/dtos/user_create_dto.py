@@ -5,12 +5,21 @@ from modules.user.utils.validators import is_valid_cpf, is_strong_password
 class UserCreateDTO(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, strip_whitespace=True)
 
+    aceitou_termos: bool = Field(..., description="Obrigatório marcar como true para criar a conta.")
+
+    @field_validator('aceitou_termos')
+    @classmethod
+    def validate_termos(cls, v: bool) -> bool:
+        if v is not True:
+            raise ValueError("Você deve aceitar os termos de uso e políticas de privacidade para se cadastrar.")
+        return v
+
     # Adicionado o À-ÿ na regex para aceitar acentos!
     nome: str = Field(..., min_length=2, max_length=20, pattern=r'^[a-zA-ZÀ-ÿ0-9 ]+$')
     sobrenome: str = Field(..., min_length=2, max_length=50, pattern=r'^[a-zA-ZÀ-ÿ0-9 ]+$')
     idade: int = Field(..., gt=0, lt=150)
     cep: str = Field(..., pattern=r'^\d{8}$')
-    endereco: str = Field(..., min_length=4, max_length=50, pattern=r'^[a-zA-ZÀ-ÿ0-9 \-\,]+$') # Aceita acentos, vírgulas e hifens
+    endereco: str = Field(..., min_length=4, max_length=50, pattern=r'^[a-zA-ZÀ-ÿ0-9 \-\,]+$')
     numero_residencia: int = Field(..., gt=0, le=10000)
     email: EmailStr 
     cpf: str = Field(..., min_length=11, max_length=11)

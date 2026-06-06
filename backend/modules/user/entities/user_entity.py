@@ -15,3 +15,4 @@ class UserEntity(Base):
     cpf = Column(String(11), unique=True, nullable=False)
     senha = Column(String(255), nullable=False) # Guardará o hash, por isso 255
     ativo = Column(Boolean, default=True) # Soft delete / Status
+    aceitou_termos = Column(Boolean, nullable=False)
