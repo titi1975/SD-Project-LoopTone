@@ -34,6 +34,10 @@ class UserRepository(IUserRepository):
         self.db.commit()
         self.db.refresh(user)
         return user
+    
+    def get_by_email(self, email: str) -> Optional[UserEntity]:
+        """Busca um usuário no banco de dados filtrando pela coluna exata de e-mail."""
+        return self.db.query(UserEntity).filter(UserEntity.email == email).first()
 
     def delete(self, user: UserEntity) -> None:
         user.ativo = False # Soft delete

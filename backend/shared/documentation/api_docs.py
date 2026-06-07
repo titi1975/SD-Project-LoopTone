@@ -57,3 +57,60 @@ EQUIPMENT_DOCS = {
     "update": "Atualização parcial de um setup de equipamento. Envie apenas as estruturas ou listas que deseja substituir.",
     "delete": "Realiza o **Hard Delete** (Exclusão Física) de um setup de equipamento, liberando espaço para que o usuário possa criar um novo."
 }
+
+AUTH_DOCS = {
+    "login": """
+    Gera um **Token de Acesso (JWT)** para o usuário autenticado.
+    
+    Este endpoint funciona como a recepção do sistema. Ao validar o e-mail e a senha com sucesso, ele devolve um "Cartão Magnético" digital (o `accessToken`), que deve ser usado para destrancar os endpoints protegidos da API.
+
+    ### 🛠️ Como Testar:
+    1. Certifique-se de já ter criado uma conta na rota `POST /api/users/`.
+    2. Insira o seu `email` e `senha` cadastrados no corpo da requisição (*Request Body*).
+    3. Clique em **Send**.
+    4. Copie o texto do `accessToken` que será retornado na resposta (HTTP 200).
+    5. Navegue até a rota que deseja testar (ex: *Criar Equipamento*), abra a aba de **Authentication**, selecione **HTTPBearer** e cole o token lá.
+    
+    **Nota de Segurança:** Por medidas de proteção contra enumeração de usuários, falhas de login (e-mail inexistente ou senha incorreta) retornarão sempre a mesma mensagem genérica com Status `401 Unauthorized`.
+    """
+}
+
+# ... (conteúdo superior do arquivo permanece igual) ...
+
+USER_DOCS = {
+    "create": """
+    Cria uma nova conta de usuário na plataforma.
+    
+    A senha enviada será automaticamente criptografada antes de ser salva no banco de dados. O campo `aceitouTermos` deve ser obrigatoriamente `true`.
+
+    ### 🛠️ Como Testar:
+    1. Preencha os dados no corpo da requisição (*Request Body*).
+    2. Certifique-se de usar um e-mail não cadastrado e uma senha forte (mínimo 8 caracteres).
+    3. Clique em **Send**.
+    """,
+    
+    "get_all": """
+    Retorna uma lista de todos os usuários cadastrados no sistema.
+    
+    ### 🔍 Filtros (Query Parameters):
+    Você pode refinar a busca preenchendo os parâmetros de URL disponíveis abaixo (ex: buscando por um nome específico). O FastAPI converte automaticamente esses parâmetros para o nosso `UserFilterDTO`.
+    """,
+    
+    "get_by_id": """
+    Busca os detalhes públicos e de perfil de um usuário específico utilizando o seu identificador único (`id`).
+    """,
+    
+    "update": """
+    Realiza a atualização **parcial** dos dados do usuário.
+    
+    Você não precisa enviar o JSON inteiro. Envie **apenas** as chaves e valores que deseja alterar. 
+    Se você enviar um novo valor para a chave `senha`, o sistema irá gerar um novo hash de segurança automaticamente.
+    """,
+    
+    "delete": """
+    Realiza a remoção de um usuário do sistema.
+    
+    *(Nota de Arquitetura: Em sistemas em produção, a deleção de usuário geralmente é um "Soft Delete", apenas inativando a conta no banco para manter a integridade dos relacionamentos com os equipamentos antigos)*.
+    """
+}
+

@@ -25,7 +25,7 @@ class AmpDTO(BaseModel):
 class EquipmentCreateDTO(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, strip_whitespace=True)
 
-    user_id: int = Field(..., gt=0) 
+    
     profile_name: str = Field(..., max_length=50)
     instrument_type: str = Field(...) 
     

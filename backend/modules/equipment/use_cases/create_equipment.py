@@ -7,8 +7,11 @@ class CreateEquipmentUseCase:
     def __init__(self, repository: IEquipmentRepository):
         self.repository = repository
 
-    def execute(self, dto: EquipmentCreateDTO) -> EquipmentEntity:
-        user_equipments = self.repository.get_by_user_id(dto.user_id)
+    # Mudança 1: Adicionamos o user_id como parâmetro de entrada
+    def execute(self, user_id: int, dto: EquipmentCreateDTO) -> EquipmentEntity:
+        
+        # Mudança 2: Usamos o user_id passado por parâmetro
+        user_equipments = self.repository.get_by_user_id(user_id)
         
         if len(user_equipments) >= 5:
             raise BusinessRuleException("O usuário já atingiu o limite máximo de 5 setups de equipamento.")
@@ -20,7 +23,7 @@ class CreateEquipmentUseCase:
         amps_data = [amp.model_dump() for amp in dto.amps]
 
         entity = EquipmentEntity(
-            user_id=dto.user_id,
+            user_id=user_id, # Mudança 3: Vinculamos a entidade ao ID confiável
             profile_name=dto.profile_name,
             instrument_type=dto.instrument_type,
             instrument_brand=dto.instrument.brand, 

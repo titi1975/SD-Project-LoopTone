@@ -11,3 +11,9 @@ class NotFoundException(DomainException):
 class BusinessRuleException(DomainException):
     """Lançada quando uma regra de negócio é violada (ex: Email já em uso)."""
     pass
+
+class UnauthorizedException(Exception):
+    """Exceção lançada quando a autenticação falha (Credenciais inválidas ou Token expirado)."""
+    def __init__(self, message: str = "Credenciais inválidas."):
+        self.message = message
+        super().__init__(self.message)

@@ -16,6 +16,11 @@ class IUserRepository(ABC):
     @abstractmethod
     def get_all(self, skip: int, limit: int, nome: Optional[str], email: Optional[str]) -> List[UserEntity]: pass
     
+    # --- ADICIONE ESTA LINHA ---
+    @abstractmethod
+    def get_by_email(self, email: str) -> Optional[UserEntity]: pass
+    # ---------------------------
+
     @abstractmethod
     def update(self, user: UserEntity) -> UserEntity: pass
     

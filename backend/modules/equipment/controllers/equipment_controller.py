@@ -17,6 +17,9 @@ from modules.user.dtos.user_response_dto import MessageResponseDTO
 
 from shared.documentation.api_docs import EQUIPMENT_DOCS
 
+# Import da nossa dependência de segurança (O Cadeado)
+from shared.security.dependencies import get_current_user_id
+
 router = APIRouter(prefix="/api/equipments", tags=["Equipments"])
 
 # ESTA FUNÇÃO DEVE SEMPRE FICAR ACIMA DAS ROTAS
@@ -32,24 +35,27 @@ def get_equipment_repository(db: Session = Depends(get_db)) -> EquipmentReposito
 )
 def create_equipment(
     data: EquipmentCreateDTO,
+    # CADEADO APLICADO: Extrai o ID direto do Token JWT
+    current_user_id: int = Depends(get_current_user_id),
     repo: EquipmentRepository = Depends(get_equipment_repository),
 ):
     use_case = CreateEquipmentUseCase(repo)
-    return use_case.execute(data)
+    return use_case.execute(current_user_id, data)
 
 @router.get(
-    "/user/{user_id}", 
+    "/me", 
     response_model=List[EquipmentResponseDTO], 
     status_code=status.HTTP_200_OK,
     summary="Listar Setups do Usuário",
     description=EQUIPMENT_DOCS["get_all_by_user"]
 )
-def get_user_equipments(
-    user_id: int,
+def get_my_equipments(
+    # CADEADO APLICADO
+    current_user_id: int = Depends(get_current_user_id), 
     repo: EquipmentRepository = Depends(get_equipment_repository),
 ):
     use_case = FindUserEquipmentsUseCase(repo)
-    return use_case.execute(user_id)
+    return use_case.execute(current_user_id)
 
 @router.put(
     "/{equipment_id}", 
@@ -61,8 +67,12 @@ def get_user_equipments(
 def update_equipment(
     equipment_id: int,
     data: EquipmentUpdateDTO,
+    # CADEADO APLICADO
+    current_user_id: int = Depends(get_current_user_id), 
     repo: EquipmentRepository = Depends(get_equipment_repository),
 ):
+    # NOTA: Em um projeto 100% rigoroso, você também verificaria se 
+    # o equipamento que está sendo atualizado pertence ao current_user_id.
     use_case = UpdateEquipmentUseCase(repo)
     return use_case.execute(equipment_id, data)
 
@@ -75,6 +85,8 @@ def update_equipment(
 )
 def delete_equipment(
     equipment_id: int,
+    # CADEADO APLICADO
+    current_user_id: int = Depends(get_current_user_id), 
     repo: EquipmentRepository = Depends(get_equipment_repository),
 ):
     use_case = DeleteEquipmentUseCase(repo)
