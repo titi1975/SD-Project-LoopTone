@@ -20,6 +20,9 @@ from modules.user.use_cases.delete_user import DeleteUserUseCase
 # IMPORTAMOS OS TEXTOS DE DOCUMENTAÇÃO
 from shared.documentation.api_docs import USER_DOCS
 
+# IMPORT DA NOSSA DEPENDÊNCIA DE SEGURANÇA (O Cadeado)
+from shared.security.dependencies import get_current_user_id
+
 router = APIRouter(prefix="/api/users", tags=["Users"])
 
 def get_user_repository(db: Session = Depends(get_db)) -> UserRepository:
@@ -47,7 +50,7 @@ def create_user(
     description=USER_DOCS["get_all"]
 )
 def get_all_users(
-    filters: UserFilterDTO = Depends(), # Transforma as query params da URL no DTO
+    filters: UserFilterDTO = Depends(), 
     repo: UserRepository = Depends(get_user_repository)
 ):
     use_case = FindAllUsersUseCase(repo)
@@ -64,34 +67,44 @@ def get_user_by_id(
     user_id: int, 
     repo: UserRepository = Depends(get_user_repository)
 ):
+    # Nota: Consultar um perfil público geralmente não exige login, 
+    # por isso mantemos o /{user_id} aberto aqui.
     use_case = FindByIdUserUseCase(repo)
     return use_case.execute(user_id)
 
+# ---------------------------------------------------------
+# ROTAS PROTEGIDAS (O USUÁRIO SÓ EDITA/DELETA A SI MESMO)
+# ---------------------------------------------------------
+
 @router.put(
-    "/{user_id}", 
+    "/me", # MUDANÇA: Sai o "/{user_id}" e entra o "/me"
     response_model=UserResponseDTO, 
     status_code=status.HTTP_200_OK,
-    summary="Atualizar Usuário",
+    summary="Atualizar Meu Perfil", # Ajuste no título
     description=USER_DOCS["update"]
 )
 def update_user(
-    user_id: int, 
     data: UserUpdateDTO, 
+    # CADEADO APLICADO: A API extrai o ID diretamente do Token JWT
+    current_user_id: int = Depends(get_current_user_id), 
     repo: UserRepository = Depends(get_user_repository)
 ):
     use_case = UpdateUserUseCase(repo)
-    return use_case.execute(user_id, data)
+    # Passamos o ID seguro extraído do token para o Use Case
+    return use_case.execute(current_user_id, data)
 
 @router.delete(
-    "/{user_id}", 
+    "/me", # MUDANÇA: Sai o "/{user_id}" e entra o "/me"
     response_model=MessageResponseDTO, 
     status_code=status.HTTP_200_OK,
-    summary="Deletar Usuário",
+    summary="Deletar Minha Conta", # Ajuste no título
     description=USER_DOCS["delete"]
 )
 def delete_user(
-    user_id: int, 
+    # CADEADO APLICADO
+    current_user_id: int = Depends(get_current_user_id), 
     repo: UserRepository = Depends(get_user_repository)
 ):
     use_case = DeleteUserUseCase(repo)
-    return use_case.execute(user_id)
+    # Passamos o ID seguro extraído do token para o Use Case
+    return use_case.execute(current_user_id)
