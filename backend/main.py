@@ -5,15 +5,15 @@ from scalar_fastapi import get_scalar_api_reference
 # --- OS IMPORTS DE INFRA E EXCEÇÕES ---
 from infra.database.database_config import engine
 from infra.database.base_entity import Base
-# CORREÇÃO 1: Adicionamos o UnauthorizedException aqui!
 from shared.exceptions.base_exceptions import NotFoundException, BusinessRuleException, UnauthorizedException
 # ---------------------------------------------------------
 
 # --- IMPORTS DOS ROTEADORES ---
-# CORREÇÃO 2: Importamos o router do módulo de autenticação para o Login funcionar
 from modules.auth.controllers.auth_controller import router as auth_router
 from modules.user.controllers.user_controller import router as user_router
 from modules.equipment.controllers.equipment_controller import router as equipment_router
+# NOVO MÓDULO DE IA INJETADO AQUI!
+from modules.tone_analysis.controllers.tone_analysis_controller import router as tone_analysis_router
 
 from modules.user.entities.user_entity import UserEntity
 from modules.equipment.entities.equipment_entity import EquipmentEntity
@@ -21,6 +21,7 @@ from modules.equipment.entities.equipment_entity import EquipmentEntity
 # IMPORTAÇÃO DA NOSSA DOCUMENTAÇÃO AUXILIAR
 from shared.documentation.api_docs import API_TITLE, API_DESCRIPTION, API_VERSION, TAGS_METADATA
 
+# Cria as tabelas no banco de dados se não existirem
 Base.metadata.create_all(bind=engine)
 
 # INJETANDO OS METADADOS NO FASTAPI
@@ -58,9 +59,10 @@ async def unauthorized_exception_handler(request: Request, exc: UnauthorizedExce
     )
 
 # --- REGISTRO DOS ROTEADORES NA APLICAÇÃO ---
-app.include_router(auth_router)  # <-- Rota de Auth registrada!
+app.include_router(auth_router)  
 app.include_router(user_router)
 app.include_router(equipment_router)
+app.include_router(tone_analysis_router) # <-- Rota da IA (Gemini) registrada!
 
 # --- DOCUMENTAÇÃO SCALAR ---
 @app.get("/scalar", include_in_schema=False)
@@ -72,4 +74,5 @@ async def scalar_html() -> HTMLResponse:
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Carrega o .env nativamente ao iniciar o Uvicorn, garantindo que o Gemini veja a chave
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, env_file=".env")

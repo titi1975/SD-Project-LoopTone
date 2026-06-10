@@ -114,3 +114,18 @@ USER_DOCS = {
     """
 }
 
+# ... outros dicionários acima (USER_DOCS, EQUIPMENT_DOCS, AUTH_DOCS) ...
+
+TONE_ANALYSIS_DOCS = {
+    "feedback": """
+    Realiza a análise espectral e de timbre utilizando Inteligência Artificial (Gemini).
+    
+    Este endpoint cruza os dados do **equipamento real** que o usuário possui com o timbre do **artista alvo**, gerando um guia prático e estruturado (JSON) de como configurar o setup.
+
+    ### 🛠️ Como Testar:
+    1. Garanta que você está autenticado (cole o Bearer Token no cadeado).
+    2. Certifique-se de que o usuário possui um setup cadastrado e anote o seu `id`.
+    3. No *Request Body*, insira o ID do equipamento, os dados da música alvo e uma descrição simulada de como o seu som está soando no momento.
+    4. Clique em **Send**. A IA retornará um objeto dividindo a resposta em Análise, Ajustes Práticos e Elementos Faltantes.
+    """
+}

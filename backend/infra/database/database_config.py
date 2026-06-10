@@ -1,26 +1,29 @@
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
 from dotenv import load_dotenv
-from typing import Generator
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.engine import URL
 
-# Carrega as variáveis do .env
+# Carrega as variáveis soltas do arquivo .env
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Monta a URL de conexão dinamicamente usando as variáveis isoladas
+DATABASE_URL = URL.create(
+    drivername="postgresql",
+    username=os.getenv("DB_USER", "postgres"),
+    password=os.getenv("DB_PASSWORD", "postgres"),
+    host=os.getenv("DB_HOST", "localhost"),
+    port=int(os.getenv("DB_PORT", 5432)), # Converte a porta garantindo que seja um número (int)
+    database=os.getenv("DB_NAME", "toneforge_db")
+)
 
-# Criação da Engine (comunicação física com o DB)
-engine = create_engine(DATABASE_URL, pool_pre_ping=True) # pool_pre_ping evita conexões "fantasmas" que caíram
+# Cria o motor de comunicação com o banco
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
-# Fábrica de sessões (Unit of Work) configurada para gerenciar transações manualmente
+# Fabrica as sessões do banco
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Função geradora para Injeção de Dependência no FastAPI
-def get_db() -> Generator[Session, None, None]:
-    """
-    Injeção de dependência para instanvciar a conexão com o banco.
-    O 'yield' garante que a sessão fechada após o request, indepentemente de erros.
-    """
+def get_db():
     db = SessionLocal()
     try:
         yield db
