@@ -1,5 +1,5 @@
 # ==========================================
-# Variáveis de Ambiente e Segurança
+# Variáveis de Ambiente e Segredos
 # ==========================================
 .env
 .env.local
@@ -11,13 +11,31 @@
 secrets.json
 
 # ==========================================
-# Ambientes Virtuais (Virtualenvs)
+# Ambientes Virtuais Python
 # ==========================================
 venv/
+venv1/
 env/
 .venv/
 env.bak/
 venv.bak/
+
+# ==========================================
+# Dependências Node.js
+# ==========================================
+node_modules/
+
+# ==========================================
+# Builds e Empacotamentos
+# ==========================================
+build/
+dist/
+*.egg-info/
+
+# ==========================================
+# Uploads de Áudio (gerados em runtime)
+# ==========================================
+uploads/
 
 # ==========================================
 # Python / Compilados / Cache
@@ -33,7 +51,6 @@ __pycache__/
 # ==========================================
 *.log
 logs/
-# Caso utilize SQLite no futuro para testes rápidos locais
 *.sqlite3
 *.db
 
@@ -46,20 +63,13 @@ logs/
 *.swo
 .DS_Store
 Thumbs.db
+settings.json
 
 # ==========================================
-# Testes e Cobertura de Código (Opcional p/ Futuro)
+# Testes e Cobertura de Código
 # ==========================================
 .pytest_cache/
 htmlcov/
 .coverage
 .coverage.*
 .tox/
-
-# ==========================================
-# Builds e Empacotamentos
-# ==========================================
-build/
-dist/
-*.egg-info/
-uploads/

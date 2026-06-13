@@ -1,0 +1,38 @@
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router";
+import { useEffect } from "react";
+import { LoginPage } from "./features/auth/presentation/pages/LoginPage";
+import { CompletionPage } from "./features/auth/presentation/pages/CompletionPage";
+import { RegisterPage } from "./features/auth/presentation/pages/RegisterPage";
+import { SetupPage } from "./features/auth/presentation/pages/SetupPage";
+import { EquipmentsPage } from "./features/equipment/presentation/pages/EquipmentsPage";
+import { MyTimbresPage } from "./features/timbre/presentation/pages/MyTimbresPage";
+import { NewTimbrePage } from "./features/timbre/presentation/pages/NewTimbrePage";
+import { SubscriptionPage } from "./features/auth/presentation/pages/SubscriptionPage";
+
+export function App() {
+  useEffect(() => {
+    const theme = localStorage.getItem("looptone-theme") || "light";
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark-theme");
+    } else {
+      root.classList.remove("dark-theme");
+    }
+  }, []);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/cadastro" element={<RegisterPage />} />
+        <Route path="/setup" element={<SetupPage />} />
+        <Route path="/concluido" element={<CompletionPage />} />
+        <Route path="/novo-timbre" element={<NewTimbrePage />} />
+        <Route path="/meus-timbres" element={<MyTimbresPage />} />
+        <Route path="/equipamentos" element={<EquipmentsPage />} />
+        <Route path="/assinatura" element={<SubscriptionPage />} />
+      </Routes>
+    </Router>
+  );
+}
