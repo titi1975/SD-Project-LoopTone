@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from infra.database.base_entity import Base
 
 class UserEntity(Base):
@@ -13,6 +13,12 @@ class UserEntity(Base):
     numero_residencia = Column(Integer, nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
     cpf = Column(String(11), unique=True, nullable=False)
-    senha = Column(String(255), nullable=False) # Guardará o hash, por isso 255
-    ativo = Column(Boolean, default=True) # Soft delete / Status
+    senha = Column(String(255), nullable=False)
+    ativo = Column(Boolean, default=True) 
     aceitou_termos = Column(Boolean, nullable=False)
+
+    # --- NOVAS COLUNAS: VERIFICAÇÃO E RECUPERAÇÃO ---
+    is_verified = Column(Boolean, default=False, nullable=False)
+    verification_code = Column(String(6), nullable=True) # Código de 6 dígitos
+    reset_token = Column(String(64), nullable=True)      # Token longo para recuperar senha
+    token_expiration = Column(DateTime(timezone=True), nullable=True) # Validade do código/token

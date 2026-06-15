@@ -12,11 +12,13 @@ from shared.exceptions.base_exceptions import NotFoundException, BusinessRuleExc
 from modules.auth.controllers.auth_controller import router as auth_router
 from modules.user.controllers.user_controller import router as user_router
 from modules.equipment.controllers.equipment_controller import router as equipment_router
-# NOVO MÓDULO DE IA INJETADO AQUI!
 from modules.tone_analysis.controllers.tone_analysis_controller import router as tone_analysis_router
 
+# --- IMPORTS DAS ENTIDADES (FUNDAMENTAL PARA O CREATE_ALL) ---
 from modules.user.entities.user_entity import UserEntity
 from modules.equipment.entities.equipment_entity import EquipmentEntity
+# CORREÇÃO AQUI: Importamos a entidade de Tone para o banco mapear a tabela 'tones'
+from modules.tone_analysis.entities.tone_entity import ToneEntity 
 
 # IMPORTAÇÃO DA NOSSA DOCUMENTAÇÃO AUXILIAR
 from shared.documentation.api_docs import API_TITLE, API_DESCRIPTION, API_VERSION, TAGS_METADATA
@@ -62,7 +64,7 @@ async def unauthorized_exception_handler(request: Request, exc: UnauthorizedExce
 app.include_router(auth_router)  
 app.include_router(user_router)
 app.include_router(equipment_router)
-app.include_router(tone_analysis_router) # <-- Rota da IA (Gemini) registrada!
+app.include_router(tone_analysis_router)
 
 # --- DOCUMENTAÇÃO SCALAR ---
 @app.get("/scalar", include_in_schema=False)

@@ -1,5 +1,7 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.orm import relationship 
+from sqlalchemy.sql import func
 from infra.database.base_entity import Base
 
 class EquipmentEntity(Base):
@@ -17,6 +19,13 @@ class EquipmentEntity(Base):
     amps = Column(JSONB, nullable=False) 
     pedals = Column(ARRAY(String(50)), nullable=False)
     daws = Column(ARRAY(String(50)), nullable=True)
+
+    # --- NOVO SISTEMA DE CRÉDITOS DIÁRIOS (POR SETUP) ---
+    creditos_ia = Column(Integer, nullable=False, default=10) # 10 análises diárias por setup
+    ultimo_reset_creditos = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    # ----------------------------------------------------
+
+    tones = relationship("ToneEntity", backref="equipment", cascade="all, delete-orphan")
 
     @property
     def instrument(self):

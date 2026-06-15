@@ -17,3 +17,6 @@ class IEquipmentRepository(ABC):
     
     @abstractmethod
     def delete(self, equipment: EquipmentEntity) -> None: pass
+
+    @abstractmethod
+    def update(self, equipment: "EquipmentEntity") -> "EquipmentEntity": pass

@@ -28,3 +28,9 @@ class EquipmentRepository(IEquipmentRepository):
     def delete(self, equipment: EquipmentEntity) -> None:
         self.db.delete(equipment)
         self.db.commit()
+
+    def update(self, equipment: EquipmentEntity) -> EquipmentEntity:
+        """Salva alterações feitas em um equipamento existente."""
+        self.db.commit()
+        self.db.refresh(equipment)
+        return equipment

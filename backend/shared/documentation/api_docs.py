@@ -119,13 +119,23 @@ USER_DOCS = {
 TONE_ANALYSIS_DOCS = {
     "feedback": """
     Realiza a análise espectral e de timbre utilizando Inteligência Artificial (Gemini).
+    ...
+    """,
     
-    Este endpoint cruza os dados do **equipamento real** que o usuário possui com o timbre do **artista alvo**, gerando um guia prático e estruturado (JSON) de como configurar o setup.
-
+    # ADICIONE ESTE BLOCO:
+    "delete": """
+    Remove permanentemente um timbre (Sessão de Laboratório) do sistema.
+    
+    Este endpoint possui proteção contra IDOR. O sistema verifica se o timbre de fato pertence a um dos setups cadastrados do usuário logado antes de efetuar a remoção física no banco de dados.
+    
     ### 🛠️ Como Testar:
-    1. Garanta que você está autenticado (cole o Bearer Token no cadeado).
-    2. Certifique-se de que o usuário possui um setup cadastrado e anote o seu `id`.
-    3. No *Request Body*, insira o ID do equipamento, os dados da música alvo e uma descrição simulada de como o seu som está soando no momento.
-    4. Clique em **Send**. A IA retornará um objeto dividindo a resposta em Análise, Ajustes Práticos e Elementos Faltantes.
+    1. Certifique-se de estar autenticado com o Bearer Token.
+    2. Insira o `tone_id` do timbre que deseja excluir no parâmetro de rota.
+    3. Clique em **Send**. O espaço no setup será liberado imediatamente.
+    """
+    "update""""
+    Atualiza (refina) uma sessão de laboratório existente.
+    
+    Permite que o usuário envie novos áudios ou descrições para uma análise já existente, sobrescrevendo os resultados da IA. Isso é ideal para o processo iterativo de moldar o timbre sem consumir os limites de criação do setup.
     """
 }
