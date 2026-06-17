@@ -111,11 +111,8 @@ cp .env.example .env
 Abra o `.env` e preencha com suas credenciais:
 
 ```env
-DB_USER=postgres
-DB_PASSWORD=sua_senha_real
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=toneforge_db
+# Connection string do Supabase (Project Settings > Database > Connection string > URI)
+DATABASE_URL=postgresql://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
 
 # Gere uma chave aleatória:
 # python3 -c "import secrets; print(secrets.token_hex(32))"
@@ -230,11 +227,7 @@ SD-Project-LoopTone/
 
 | Variável           | Obrigatória | Descrição                                               |
 |:-------------------|:-----------:|:--------------------------------------------------------|
-| `DB_USER`          | ✅           | Usuário do PostgreSQL                                   |
-| `DB_PASSWORD`      | ✅           | Senha do PostgreSQL                                     |
-| `DB_HOST`          | ✅           | Host do banco (ex: `localhost`)                         |
-| `DB_PORT`          | ✅           | Porta do banco (padrão: `5432`)                         |
-| `DB_NAME`          | ✅           | Nome do banco de dados                                  |
+| `DATABASE_URL`     | ✅           | Connection string do Supabase (PostgreSQL)               |
 | `JWT_SECRET_KEY`   | ✅           | Chave secreta para assinar tokens JWT                   |
 | `GEMINI_API_KEY`   | ⚠️           | Chave da API Google Gemini (sem ela usa modo demo)      |
 | `AUDIO_UPLOAD_DIR` | ✅           | Diretório de uploads de áudio (padrão: `uploads/audio`) |
