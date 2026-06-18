@@ -8,3 +8,6 @@ psycopg2-binary==2.9.9
 google-genai==1.2.0
 python-dotenv==1.0.1
 python-multipart==0.0.9
+librosa==0.10.2.post1
+numpy==1.26.4
+bcrypt==5.0.0
