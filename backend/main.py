@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from scalar_fastapi import get_scalar_api_reference
 
@@ -32,6 +33,19 @@ app = FastAPI(
     description=API_DESCRIPTION,
     version=API_VERSION,
     openapi_tags=TAGS_METADATA # Aplica as descrições nas tags laterais
+)
+
+# --- CORS ---
+# Origens de desenvolvimento (Vite). TODO: adicionar a URL de produção do
+# Vercel aqui quando ela estiver definida.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # --- HANDLERS DE EXCEÇÕES ---
