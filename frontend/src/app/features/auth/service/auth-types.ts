@@ -29,3 +29,19 @@ export type AuthResponse = {
   tokenType: string;
   user: User;
 };
+
+
+export type VerifyEmailPayload = {
+  email: string;
+  code: string;
+};
+
+export type ForgotPasswordPayload = {
+  email: string;
+};
+
+export type ResetPasswordPayload = {
+  email: string;
+  resetToken: string;
+  novaSenha: string;
+};
