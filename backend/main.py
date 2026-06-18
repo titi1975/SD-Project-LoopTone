@@ -36,14 +36,14 @@ app = FastAPI(
 )
 
 # --- CORS ---
-# Origens de desenvolvimento (Vite). TODO: adicionar a URL de produção do
-# Vercel aqui quando ela estiver definida.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "https://looptone.vercel.app",
     ],
+    allow_origin_regex=r"https://looptone-.*-tone-forge\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
