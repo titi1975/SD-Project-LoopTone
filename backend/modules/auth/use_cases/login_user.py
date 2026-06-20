@@ -22,10 +22,11 @@ class LoginUserUseCase:
         # -----------------------------------------------------------------
         # Se a senha estiver correta, mas a conta não tiver sido validada
         # com o código do Gmail, barramos a emissão do Token JWT.
-        if not user.is_verified:
-            raise UnauthorizedException(
-                "Sua conta ainda não foi ativada. Verifique seu e-mail e insira o código de confirmação."
-            )
+        # TODO: reativar verificação de email quando SMTP estiver configurado
+        # if not user.is_verified:
+        #     raise UnauthorizedException(
+        #         "Sua conta ainda não foi ativada. Verifique seu e-mail e insira o código de confirmação."
+        #     )
         # -----------------------------------------------------------------
 
         # 3. Geramos o JWT verdadeiro usando o ID do usuário
