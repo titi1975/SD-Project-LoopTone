@@ -10,7 +10,7 @@ class EmailService:
     def __init__(self):
         # Configurações do .env
         self.smtp_server = "smtp.gmail.com"
-        self.smtp_port = 587
+        self.smtp_port = 465
         self.sender_email = os.getenv("SMTP_EMAIL")
         self.sender_password = os.getenv("SMTP_PASSWORD") # Senha de App do Gmail
 
@@ -56,8 +56,7 @@ class EmailService:
         msg.attach(MIMEText(html_body, "html"))
 
         try:
-            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
-                server.starttls()
+            with smtplib.SMTP_SSL(self.smtp_server, self.smtp_port) as server:
                 server.login(self.sender_email, self.sender_password)
                 server.sendmail(self.sender_email, to_email, msg.as_string())
         except Exception as e:
