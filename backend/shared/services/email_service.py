@@ -1,7 +1,5 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import resend
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,10 +7,8 @@ load_dotenv()
 class EmailService:
     def __init__(self):
         # Configurações do .env
-        self.smtp_server = "smtp.gmail.com"
-        self.smtp_port = 465
-        self.sender_email = os.getenv("SMTP_EMAIL")
-        self.sender_password = os.getenv("SMTP_PASSWORD") # Senha de App do Gmail
+        resend.api_key = os.getenv("RESEND_API_KEY")
+        self.sender_email = "onboarding@resend.dev"  # TODO: trocar para domínio verificado quando disponível
 
     def send_verification_email(self, recipient_email: str, code: str, user_name: str):
         subject = "LoopTone - Confirme seu cadastro"
@@ -44,20 +40,16 @@ class EmailService:
         self._send_email(recipient_email, subject, body)
 
     def _send_email(self, to_email: str, subject: str, html_body: str):
-        if not self.sender_email or not self.sender_password:
-            print("⚠️ AVISO: E-mail não enviado pois as credenciais SMTP faltam no .env")
+        if not resend.api_key:
+            print("⚠️ AVISO: E-mail não enviado pois RESEND_API_KEY falta no .env")
             return
 
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = f"Equipe LoopTone <{self.sender_email}>"
-        msg["To"] = to_email
-
-        msg.attach(MIMEText(html_body, "html"))
-
         try:
-            with smtplib.SMTP_SSL(self.smtp_server, self.smtp_port) as server:
-                server.login(self.sender_email, self.sender_password)
-                server.sendmail(self.sender_email, to_email, msg.as_string())
+            resend.Emails.send({
+                "from": f"Equipe LoopTone <{self.sender_email}>",
+                "to": [to_email],
+                "subject": subject,
+                "html": html_body,
+            })
         except Exception as e:
-            print(f"Erro ao disparar e-mail via SMTP: {e}")
+            print(f"Erro ao disparar e-mail via Resend: {e}")
