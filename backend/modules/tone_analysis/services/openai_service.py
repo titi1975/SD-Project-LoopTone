@@ -20,7 +20,12 @@ class OpenAIService(ILLMProvider):
                 messages=[
                     {
                         "role": "system",
-                        "content": "Você é um engenheiro de áudio especialista em timbres de guitarra, baixo e produção musical."
+                        "content": (
+                            "Você é um engenheiro de áudio especialista em timbres de guitarra, baixo e produção musical. "
+                            "Seja direto e prático. Ao sugerir ajustes, trabalhe estritamente com os parâmetros e "
+                            "controles reais existentes nos equipamentos (amplificadores e pedais) informados na lista do prompt. "
+                            "Não invente controles, botões ou parâmetros que não estejam fisicamente presentes nos modelos de equipamentos informados."
+                        )
                     },
                     {
                         "role": "user",

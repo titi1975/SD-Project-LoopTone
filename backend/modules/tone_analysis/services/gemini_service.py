@@ -27,7 +27,13 @@ class GeminiService(ILLMProvider):
         self.model_name = 'gemini-2.5-flash' 
         
         self.config = types.GenerateContentConfig(
-            system_instruction="Você é um engenheiro de áudio especialista em timbres de guitarra, baixo e produção musical. Seja direto e prático. Baseie-se fortemente nos dados espectrais fornecidos.",
+            system_instruction=(
+                "Você é um engenheiro de áudio especialista em timbres de guitarra, baixo e produção musical. "
+                "Seja direto e prático. Baseie-se fortemente nos dados espectrais fornecidos. "
+                "Ao sugerir ajustes (adjustments), trabalhe estritamente com os parâmetros e controles reais existentes "
+                "nos equipamentos (amplificadores e pedais) informados na lista do prompt. Não invente controles, botões "
+                "ou parâmetros que não estejam fisicamente presentes nos modelos de equipamentos informados."
+            ),
             temperature=0.7,
             response_mime_type="application/json", 
             response_schema=AIToneResponseSchema   

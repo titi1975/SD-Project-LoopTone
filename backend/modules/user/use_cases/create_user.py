@@ -19,14 +19,22 @@ class CreateUserUseCase:
         self.email_service = EmailService()
 
     def execute(self, dto: UserCreateDTO) -> UserEntity:
-        # 1. Checa se o e-mail já existe
-        if self.repository.get_by_email(dto.email):
+        # 1. Fazemos as duas buscas no banco simultaneamente para não ocultar erros
+        email_exists = self.repository.get_by_email(dto.email)
+        cpf_exists = self.repository.db.query(UserEntity).filter(UserEntity.cpf == dto.cpf).first()
+
+        # 2. Comparamos os resultados e devolvemos a mensagem adequada
+        if email_exists and cpf_exists:
+            raise BusinessRuleException("O e-mail e o CPF informados já estão cadastrados.")
+        elif email_exists:
             raise BusinessRuleException("Este e-mail já está cadastrado em nossa base.")
-            
-        # 2. Criptografa a senha antes de salvar
+        elif cpf_exists:
+            raise BusinessRuleException("Este CPF já está vinculado a outra conta.")
+
+        # 3. Criptografa a senha antes de salvar
         hashed_password = PasswordHelper.hash_password(dto.senha)
 
-        # 3. Regra de Bypass para o Usuário de Teste do Desenvolvedor
+        # 4. Regra de Bypass para o Usuário de Teste do Desenvolvedor
         # Busca o e-mail master do .env. Se não achar, assume 'dev@looptone.com' como padrão de segurança.
         email_desenvolvedor = os.getenv("TEST_USER_EMAIL", "dev@looptone.com")
         
@@ -43,7 +51,7 @@ class CreateUserUseCase:
             # Define o tempo de expiração estrito para 15 minutos a partir de agora em UTC
             token_expiration = datetime.now(timezone.utc) + timedelta(minutes=15)
 
-        # 4. Monta a entidade incluindo os novos campos de controle de estado
+        # 5. Monta a entidade incluindo os novos campos de controle de estado
         entity = UserEntity(
             nome=dto.nome,
             sobrenome=dto.sobrenome,
@@ -62,10 +70,10 @@ class CreateUserUseCase:
             token_expiration=token_expiration
         )
 
-        # 5. Persiste o usuário no banco de dados
+        # 6. Persiste o usuário no banco de dados
         created_user = self.repository.create(entity)
 
-        # 6. Dispara o e-mail se não for o usuário de testes
+        # 7. Dispara o e-mail se não for o usuário de testes
         if not is_verified and verification_code:
             self.email_service.send_verification_email(
                 recipient_email=created_user.email,

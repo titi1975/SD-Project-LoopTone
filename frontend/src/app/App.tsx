@@ -9,6 +9,11 @@ import { MyTimbresPage } from "./features/timbre/presentation/pages/MyTimbresPag
 import { NewTimbrePage } from "./features/timbre/presentation/pages/NewTimbrePage";
 import { SubscriptionPage } from "./features/auth/presentation/pages/SubscriptionPage";
 
+// IMPORTANDO AS NOVAS PÁGINAS
+import { VerifyEmailPage } from "./features/auth/presentation/pages/VerifyEmailPage";
+import { ForgotPasswordPage } from "./features/auth/presentation/pages/ForgotPasswordPage";
+import { ResetPasswordPage } from "./features/auth/presentation/pages/ResetPasswordPage";
+
 export function App() {
   useEffect(() => {
     const theme = localStorage.getItem("looptone-theme") || "light";
@@ -26,6 +31,13 @@ export function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/cadastro" element={<RegisterPage />} />
+        
+        {/* NOVAS ROTAS DE SEGURANÇA */}
+        <Route path="/verificar-email" element={<VerifyEmailPage />} />
+        <Route path="/esqueci-minha-senha" element={<ForgotPasswordPage />} />
+        <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
+        {/* ---------------------- */}
+
         <Route path="/setup" element={<SetupPage />} />
         <Route path="/concluido" element={<CompletionPage />} />
         <Route path="/novo-timbre" element={<NewTimbrePage />} />
