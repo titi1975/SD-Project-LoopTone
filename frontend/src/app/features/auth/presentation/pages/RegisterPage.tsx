@@ -95,8 +95,14 @@ export function RegisterPage() {
       localErrors["cep"] = "O CEP deve conter exatamente 8 números.";
     }
 
-    if (!form.endereco.trim()) {
-      localErrors["endereco"] = "O endereço não pode estar vazio.";
+    // --- NOVA VALIDAÇÃO DO ENDEREÇO ---
+    // Extrai apenas as letras (incluindo acentos) e números da string
+    const alphanumericCount = (form.endereco.match(/[A-Za-z0-9À-ÖØ-öø-ÿ]/g) || []).length;
+    
+    if (form.endereco.length > 50) {
+      localErrors["endereco"] = "O endereço deve ter no máximo 50 caracteres.";
+    } else if (alphanumericCount < 4) {
+      localErrors["endereco"] = "O endereço deve conter pelo menos 4 letras ou números.";
     }
 
     if (!form.numeroResidencia) {
@@ -125,16 +131,14 @@ export function RegisterPage() {
       localErrors["aceitouTermos"] = "Você precisa aceitar os Termos de Uso e Políticas de Privacidade.";
     }
 
-    // Se houve erro local, a função encerra aqui. O botão NÃO muda para "Criando...".
     if (Object.keys(localErrors).length > 0) {
       setFieldErrors(localErrors);
       return;
     }
     // --- FIM DA MURALHA ---
 
-    // A partir daqui, a requisição vai para a API
     setLoading(true);
-    const requestStartTime = Date.now(); // Marca o momento exato em que a requisição iniciou
+    const requestStartTime = Date.now();
 
     const payload: RegisterUserPayload = {
       nome: form.nome.trim(),
@@ -184,17 +188,14 @@ export function RegisterPage() {
       }
 
     } finally {
-      // --- SUAVIDADE DE UX APLICADA AQUI ---
       const elapsedTime = Date.now() - requestStartTime;
-      const minimumLoadingTime = 500; // Define meio segundo como o mínimo aceitável
+      const minimumLoadingTime = 500;
 
       if (elapsedTime < minimumLoadingTime) {
-        // Se a API respondeu rápido demais, aguardamos o tempo restante para tirar o "Criando..."
         setTimeout(() => {
           setLoading(false);
         }, minimumLoadingTime - elapsedTime);
       } else {
-        // Se a requisição demorou normalmente (ex: deploy em nuvem), libera na hora
         setLoading(false);
       }
     }
@@ -218,7 +219,10 @@ export function RegisterPage() {
           <FormInput label="CPF (Apenas números)" value={form.cpf} onChange={(event) => updateField("cpf", event.target.value)} maxLength={11} error={fieldErrors["cpf"]} />
           <FormInput label="Idade" value={form.idade} onChange={(event) => updateField("idade", event.target.value)} type="number" error={fieldErrors["idade"]} />
           <FormInput label="CEP (Apenas números)" value={form.cep} onChange={(event) => updateField("cep", event.target.value)} maxLength={8} error={fieldErrors["cep"]} />
-          <FormInput label="Endereço" value={form.endereco} onChange={(event) => updateField("endereco", event.target.value)} error={fieldErrors["endereco"]} />
+          
+          {/* MUDANÇA: Adicionado o maxLength=50 no Input de Endereço */}
+          <FormInput label="Endereço" value={form.endereco} onChange={(event) => updateField("endereco", event.target.value)} maxLength={50} error={fieldErrors["endereco"]} />
+          
           <FormInput label="Nº Residência" value={form.numeroResidencia} onChange={(event) => updateField("numeroResidencia", event.target.value)} type="number" error={fieldErrors["numeroResidencia"]} />
           
           <div style={{ display: "grid", gap: "4px", position: "relative" }}>
