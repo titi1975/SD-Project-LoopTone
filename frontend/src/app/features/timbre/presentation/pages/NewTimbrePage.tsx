@@ -34,8 +34,9 @@ export function NewTimbrePage() {
   const [targetSong, setTargetSong] = useState("");
   const [targetInstrument, setTargetInstrument] = useState("");
 
-  // Arquivo de áudio inicial
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  // Arquivos de áudio inicial (atual e objetivo)
+  const [setupAudioFile, setSetupAudioFile] = useState<File | null>(null);
+  const [targetAudioFile, setTargetAudioFile] = useState<File | null>(null);
   const [currentToneSimulation, setCurrentToneSimulation] = useState("");
 
   // Estados do Chat
@@ -76,10 +77,17 @@ export function NewTimbrePage() {
 
   const selectedSetup = equipments.find((e) => e.id === selectedEqId);
 
-  function handleAudioFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSetupAudioFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      setAudioFile(file);
+      setSetupAudioFile(file);
+    }
+  }
+
+  function handleTargetAudioFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      setTargetAudioFile(file);
     }
   }
 
@@ -111,7 +119,7 @@ export function NewTimbrePage() {
       return;
     }
 
-    if (!audioFile) {
+    if (!setupAudioFile) {
       setFeedbackMsg("O upload de um áudio gravado do seu som atual é obrigatório.");
       return;
     }
@@ -124,7 +132,8 @@ export function NewTimbrePage() {
         targetArtist: targetArtist.trim(),
         targetSong: targetSong.trim(),
         targetInstrument: targetInstrument.trim(),
-        audio: audioFile,
+        setupAudio: setupAudioFile,
+        targetAudio: targetAudioFile,
         currentToneSimulation: currentToneSimulation.trim() || undefined,
       });
 
@@ -137,7 +146,7 @@ export function NewTimbrePage() {
         id: userMsgId,
         role: "user",
         text: currentToneSimulation.trim() || undefined,
-        audioName: audioFile.name,
+        audioName: setupAudioFile.name,
         createdAt: new Date().toISOString(),
       };
 
@@ -205,7 +214,8 @@ export function NewTimbrePage() {
         targetArtist: targetArtist.trim(),
         targetSong: targetSong.trim(),
         targetInstrument: targetInstrument.trim(),
-        audio: fileToSend || audioFile!, // Envia o novo áudio ou o primeiro se não houver um novo
+        setupAudio: fileToSend || setupAudioFile!, // Envia o novo áudio ou o primeiro se não houver um novo
+        targetAudio: targetAudioFile,
         currentToneSimulation: currentToneSimulationText,
       });
 
@@ -269,7 +279,8 @@ export function NewTimbrePage() {
     if (confirm("Deseja realmente iniciar uma nova conversa e limpar esta sessão?")) {
       setIsChatActive(false);
       setChatMessages([]);
-      setAudioFile(null);
+      setSetupAudioFile(null);
+      setTargetAudioFile(null);
       setChatAudioFile(null);
       setChatText("");
       setCurrentToneSimulation("");
@@ -380,46 +391,91 @@ export function NewTimbrePage() {
                   </label>
                 </div>
 
-                {/* Upload de áudio atual */}
-                <div className="upload-grid" style={{ margin: 0 }}>
-                  <input
-                    type="file"
-                    id="audio-input"
-                    accept="audio/*"
-                    onChange={handleAudioFileChange}
-                    style={{ display: "none" }}
-                  />
-                  <button
-                    type="button"
-                    className="upload-box"
-                    onClick={() => document.getElementById("audio-input")?.click()}
-                    style={{
-                      cursor: "pointer",
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      padding: "10px 16px"
-                    }}
-                  >
-                    <span style={{
-                      display: "inline-flex",
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "50%",
-                      background: "var(--surface-soft)",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "var(--primary)",
-                      flexShrink: 0
-                    }}>
-                      <CloudUpload size={18} />
-                    </span>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "2px", alignItems: "flex-start" }}>
-                      <strong>Fazer upload do seu áudio inicial</strong>
-                      <p>{audioFile ? `Selecionado: ${audioFile.name}` : "Selecione um arquivo de gravação .mp3 ou .wav"}</p>
-                    </div>
-                  </button>
+                {/* Upload de áudio atual e objetivo lado a lado */}
+                <div className="responsive-grid-2" style={{ margin: "14px 0" }}>
+                  {/* Card 1: Timbre Atual */}
+                  <div>
+                    <input
+                      type="file"
+                      id="setup-audio-input"
+                      accept="audio/*"
+                      onChange={handleSetupAudioFileChange}
+                      style={{ display: "none" }}
+                    />
+                    <button
+                      type="button"
+                      className="upload-box"
+                      onClick={() => document.getElementById("setup-audio-input")?.click()}
+                      style={{
+                        cursor: "pointer",
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "10px 16px"
+                      }}
+                    >
+                      <span style={{
+                        display: "inline-flex",
+                        width: "36px",
+                        height: "36px",
+                        borderRadius: "50%",
+                        background: "var(--surface-soft)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "var(--primary)",
+                        flexShrink: 0
+                      }}>
+                        <CloudUpload size={18} />
+                      </span>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px", alignItems: "flex-start" }}>
+                        <strong>Timbre Atual (Seu som)</strong>
+                        <p>{setupAudioFile ? `Selecionado: ${setupAudioFile.name}` : "Carregar som atual (Obrigatório)"}</p>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Card 2: Timbre Objetivo */}
+                  <div>
+                    <input
+                      type="file"
+                      id="target-audio-input"
+                      accept="audio/*"
+                      onChange={handleTargetAudioFileChange}
+                      style={{ display: "none" }}
+                    />
+                    <button
+                      type="button"
+                      className="upload-box"
+                      onClick={() => document.getElementById("target-audio-input")?.click()}
+                      style={{
+                        cursor: "pointer",
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "10px 16px"
+                      }}
+                    >
+                      <span style={{
+                        display: "inline-flex",
+                        width: "36px",
+                        height: "36px",
+                        borderRadius: "50%",
+                        background: "var(--surface-soft)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "var(--primary-2)",
+                        flexShrink: 0
+                      }}>
+                        <CloudUpload size={18} />
+                      </span>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px", alignItems: "flex-start" }}>
+                        <strong>Timbre Objetivo (Referência)</strong>
+                        <p>{targetAudioFile ? `Selecionado: ${targetAudioFile.name}` : "Carregar áudio de referência (Opcional)"}</p>
+                      </div>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Observações */}
@@ -572,7 +628,7 @@ export function NewTimbrePage() {
                       style={{ padding: "6px 12px", fontSize: "0.85rem", borderRadius: "18px", display: "flex", alignItems: "center", gap: "6px" }}
                       disabled={loading}
                     >
-                      <Paperclip size={14} /> Anexar Novo Áudio
+                      <Paperclip size={14} /> Anexar Áudio Atual
                     </button>
 
                     {chatAudioFile && (

@@ -7,7 +7,8 @@ export const timbreService = {
     targetArtist: string;
     targetSong: string;
     targetInstrument: string;
-    audio: File;
+    setupAudio?: File | null;
+    targetAudio?: File | null;
     currentToneSimulation?: string;
   }): Promise<TimbreAnalysisResponse> {
     const formData = new FormData();
@@ -15,8 +16,13 @@ export const timbreService = {
     formData.append("target_artist", payload.targetArtist);
     formData.append("target_song", payload.targetSong);
     formData.append("target_instrument", payload.targetInstrument);
-    formData.append("audio", payload.audio);
     
+    if (payload.setupAudio) {
+      formData.append("setup_audio", payload.setupAudio);
+    }
+    if (payload.targetAudio) {
+      formData.append("target_audio", payload.targetAudio);
+    }
     if (payload.currentToneSimulation) {
       formData.append("current_tone_simulation", payload.currentToneSimulation);
     }

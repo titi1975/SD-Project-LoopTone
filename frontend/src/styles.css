@@ -866,8 +866,8 @@ textarea:focus {
 }
 
 .ghost-button {
-  border: 1px solid #d5c6ff;
-  background: #fff;
+  border: 1px solid var(--line);
+  background: var(--surface);
   color: var(--primary);
   border-radius: 16px;
   padding: 12px 20px;
